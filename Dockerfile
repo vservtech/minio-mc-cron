@@ -6,3 +6,21 @@
 ARG BASE_TAG
 
 FROM minio/mc:${BASE_TAG}
+
+# Doesn't work, probably no package manager installed
+RUN yum install cronie
+
+# COPY example-crontab /etc/cron.d/example-crontab
+# To use this Image: 
+# - bind-mount some folder into /etc/cron.d with custom crontabs
+# - bind-mount all required scripts for these cronfiles into the container, 
+#   for example to /scripts/
+
+WORKDIR /minio-mc-cron
+COPY src/init.sh ./
+
+# Note: can't 
+# RUN chmod -R 0644 /etc/cron.d/* 
+# RUN crontab /etc/cron.d/*
+
+ENTRYPOINT ["bash", "/minio-mc-cron/init.sh"]
