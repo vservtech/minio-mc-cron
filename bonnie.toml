@@ -1,4 +1,10 @@
-version = "0.3.2"
+version   = "0.3.2"
+env_files = [".env"]
 
 [scripts]
-    build = "echo Building"
+    build.cmd        = "docker build -t %TARGET_IMAGE:latest --build-arg BASE_TAG=%MC_BASE_VERSION ."
+    build.env_vars   = ["TARGET_IMAGE", "MC_BASE_VERSION"]
+    tag.cmd          = "docker tag %TARGET_IMAGE:latest %TARGET_IMAGE:%MC_BASE_VERSION"
+    tag.env_vars     = ["TARGET_IMAGE", "MC_BASE_VERSION"]
+    inspect.cmd      = "docker inspect --format='{{.RepoTags}}' %TARGET_IMAGE:%MC_BASE_VERSION"
+    inspect.env_vars = ["TARGET_IMAGE", "MC_BASE_VERSION"]
